@@ -1,0 +1,42 @@
+
+
+
+- LibAK: 
+    root: /i/project/LibAK
+    windows:
+        - master: 
+            layout: tiled
+            dir: master
+            panes:
+                - vim
+                - vim
+                - vim
+                - vim
+        - develop:
+            layout: tiled
+            dir: develop
+            panes:
+                - vim
+                - vim
+                - vim
+
+#- Files: 
+#    root: /i/data
+#    windows:
+#        - Library: 
+#            layout: tiled
+#            dir: 'Library'
+#            panes: 
+#                - ranger
+#                - ''
+#        
+#        - Downloads: 
+#            layout: tiled
+#            dir: 'Downloads'
+#            panes: 
+#                - ranger
+#                - ''
+#                - ranger
+#            
+#        
+#
