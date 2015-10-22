@@ -9,16 +9,16 @@
             dir: master
             panes:
                 - vim
-                - vim
-                - vim
+                - ranger
+                - htop
                 - vim
         - develop:
             layout: tiled
             dir: develop
             panes:
+                - watch df -h
                 - vim
-                - vim
-                - vim
+                - ''
 
 #- Files: 
 #    root: /i/data
