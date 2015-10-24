@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import re
 from pprint import pprint
 from subprocess import getoutput as system
 from subprocess import call
@@ -11,19 +12,19 @@ except ImportError:
     from yaml import Loader, Dumper
 
 def NewSession(SName):
-    return call('tmux new-session -s '+SName+' -d',shell=True)
+    return call('tmux new-session -s '+re.escape(SName)+' -d',shell=True)
 
 
 def NewWindow(SName,WName,WNumber):
     if WNumber > 0:
         return call('tmux new-window -n '+WName+' -t '+SName,shell=True)
     else:
-        return call('tmux rename-window -t '+SName+':0 '+WName,shell=True)
+        return call('tmux rename-window -t '+re.escape(SName)+':0 '+WName,shell=True)
 
 def NewPane(SName,WNumber,PNumber,Command,Directory):
     ret = True
     if PNumber > 0:
-        ret = call('tmux split-window -h -t '+SName+':'+str(WNumber),shell=True)
+        ret = call('tmux split-window -h -t '+re.escape(SName)+':'+str(WNumber),shell=True)
         ChangeDir(SName,WNumber,PNumber,Directory)
         ApplyCommand(SName,WNumber,PNumber,Command)
 
@@ -37,17 +38,18 @@ def NewPane(SName,WNumber,PNumber,Command,Directory):
 def ChangeDir(SName,WNumber,PNumber,Directory):
     return call(
             'tmux send-keys -t '+
-            SName+':'+str(WNumber)+'.'+str(PNumber)+
+            re.escape(SName)+':'+str(WNumber)+'.'+str(PNumber)+
             ' "cd '+Directory+'" C-m',shell=True)
 
 def ApplyCommand(SName,WNumber,PNumber,Command):
     return call(
             'tmux send-keys -t '+
-            SName+':'+str(WNumber)+'.'+str(PNumber)+' '+
-            Command+' C-m',shell=True)
+            re.escape(SName)+':'+str(WNumber)+'.'+str(PNumber)+' '+
+            re.escape(Command)+' C-m',shell=True)
 
 def SetLayout(SName,WNumber,Layout):
-    return call('tmux select-layout -t '+SName+':'+str(WNumber)+' '+Layout,shell=True)
+    call('tmux select-layout -t '+re.escape(SName)+':'+str(WNumber)+' tiled',shell=True)
+    return call('tmux select-layout -t '+re.escape(SName)+':'+str(WNumber)+' '+re.escape(Layout),shell=True)
 
 
 def SaveSessions(File):
@@ -99,6 +101,9 @@ def LoadSessions(File):
                     WNumber += 1
 
         SNumber += 1
+    
+    #input('')
+    #call('killall tmux',shell=True)
                     
 File = os.path.expanduser('~/.config/IniTmux/IniTmux.yml')
 
