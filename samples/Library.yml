@@ -1,0 +1,23 @@
+---
+name: Library
+root: /i/data/Library
+windows:
+- [EngComp     , two]
+- [Programming , engcomp]
+- [Tools       , engcomp]
+- [Sites       , two]
+- [Science     , two]
+- [Root        , two      , '']
+models:
+    two:
+        layout: tiled
+        dir: <WindowName>
+        panes:
+        - 'ranger'
+        - ''
+    engcomp:
+        layout: tiled
+        dir: EngComp/<WindowName>
+        panes:
+        - 'ranger'
+        - ''
