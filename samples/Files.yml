@@ -1,0 +1,26 @@
+---
+name: Files
+root: /i/data
+windows:
+- [Videos    , two]
+- [Downloads , two]
+- [Musics    , two]
+- [Study     , two]
+- [Mount     , mount]
+- [Root      , two    , '']
+#- [Images    , two]
+#- [Personal, two]
+#- [UFPA, two]
+models:
+    two:
+        layout: tiled
+        dir: <WindowName>
+        panes:
+        - 'ranger'
+        - ''
+    mount:
+        layout: "4b7b,113x31,0,0[113x23,0,0,20,113x8,0,24,21]"
+        dir: ''
+        panes:
+        - 'bashmount'
+        - ''

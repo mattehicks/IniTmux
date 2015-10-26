@@ -1,4 +1,2 @@
-
-.file-list
-
 __pycache__/*
+src/__pycache__/*
