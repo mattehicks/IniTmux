@@ -69,7 +69,7 @@ windows:
 - [Musics    , musics]
 - [Downloads , downloads]
 
-models
+models:
     musics:
         layout: even-vertical
         dir: <WindowName> 
@@ -94,6 +94,6 @@ I strongly recommend you to install it with pip.
 
 * Others Modules
 
-os
-pprint
-subprocess
+- os
+- pprint
+- subprocess
