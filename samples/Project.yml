@@ -1,0 +1,14 @@
+---
+name: Project
+root: /i/project
+windows:
+- [IniTmux , two]
+- [VWS     , two]
+- [Root , two, '']
+models:
+    two:
+        layout: tiled
+        dir: <WindowName>
+        panes:
+        - vim -c VWSLoadWorkSpace
+        - ''

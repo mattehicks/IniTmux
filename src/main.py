@@ -135,22 +135,31 @@ def CreatePanesByModel(SName,WName,WNumber,Root,Model,SpecificDir): #{{{
 
 #}}}
 def CreateWindows(SName,Root,Models,Windows): #{{{
-    if Models == None:
-        print('Without Models')
-    else:
-        #print('With Models')
-        for WNumber in range(len(Windows)):
-            Window = Windows[WNumber]
+
+    for WNumber in range(len(Windows)):
+        Window = Windows[WNumber]
+        SpecificDir = None
+        if type(Window) == type([]):
             WName = Window[0]
-            WModel = Window[1]
-            SpecificDir = None
+            WModelName = Window[1]
             if len(Window) == 3:
                 SpecificDir = Window[2]
+    
+            Model = Models[WModelName]
+        elif type(Window) == type({}):
+            WName = list(Window.keys())[0]
+            Model = Window[WName]
+            if type(Model) == type(''):
+                Model = Models[Model]
+            #elif type(Model) == type({}):
+            #    Layout = Model.get('layout') or Model.get('Layout')
+            #    Panes  = Model.get('panes')  or Model.get('Panes')
+            #    WModelName = Model.get('model')  or Model.get('Model')
+            #    SpecificDir = Model.get('dir')  or Model.get('Dir')
 
-            Model = Models[WModel]
-            NewWindow(SName,WName,WNumber)
-            CreatePanesByModel(SName,WName,WNumber,Root,Model,SpecificDir)
-
+        NewWindow(SName,WName,WNumber)
+        CreatePanesByModel(SName,WName,WNumber,Root,Model,SpecificDir)
+    
 #}}}
 def CreateSession(YAML): #{{{
 
@@ -216,3 +225,5 @@ print('---------------------------------------------')
 CreateSessions(FilesDirectory)
 print()
 print('Done. Type: "tmux attach-session" To Checkout your Sessions!')
+input('')
+call('killall tmux',shell=True)
