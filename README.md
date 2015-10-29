@@ -63,7 +63,7 @@ Hence, you have to write the YAML file (`Files.yml`) like the following:
 ```yaml
 ---
 name: Files
-root: ~      # Do not put the last slash ('/')
+root: '~'      # Do not put the last slash ('/')
 
 windows:
 - Musics    : musics
@@ -111,7 +111,7 @@ HOME location of the user who called the script. It uses `os.path.expanduser` of
 ### models
 
 Is a sort of skeleton that you want to put into your windows description. You can then describe a model that 
-can be applyed to several windowsa at once.
+can be applyed to several windows at once.
 
 You can see the power of the `models` attribute, in the following example:
 
@@ -146,7 +146,8 @@ attribute is obligatory.
 
 There is 4 ways to describe a window.
 
-* Direct Form
+###### Direct Form
+
 In this form, you describe the window without using any model. Example:
 
 ```yaml
@@ -162,7 +163,8 @@ windows:
 
 this will create 1 window called `Directories` with 4 panes.
 
-* Model Form
+###### Model Form
+
 In this form, you describe a set of models and apply then in each window. Example:
 
 ```yaml
@@ -181,7 +183,8 @@ models:
         panes: 2
 ```
 
-* Overwrite Model Form
+###### Overwrite Model Form
+
 In this form, you describe a set of models and apply then in each window, but you can 
 overwrite one or more attibutes of a model if you want. Example:
 
@@ -212,7 +215,8 @@ Note:
     code (or even the entire code) was written with hurry, and still lacks of organization. With time, I'll take 
     care of this feature.
 
-* Yes, you can mix all these forms together when describing windows
+###### Yes, you can mix all these forms together when describing windows
+
 Example:
 
 ```yaml
@@ -250,7 +254,7 @@ models:
 
 You can describe panes in 3 different forms:
 
-* Number form
+###### Number form
 
 You are only interested in create a number of panes and apply no commands. Example:
 
@@ -272,7 +276,7 @@ models:
         panes: 4
 ```
 
-* One Command Form
+###### One Command Form
 
 You want to create several panes and apply a command after its creation. Example:
 
@@ -286,7 +290,7 @@ You want to create several panes and apply a command after its creation. Example
         - ''
 ```
 
-* Multiple Commands Form
+###### Multiple Commands Form
 
 You want to create several panes and apply several commands, in sequence, for each pane. Example:
 
@@ -423,7 +427,7 @@ If IniTmux does not suit you needs, then you can checkout these projects:
 
 # Dependencies
 
-* pyyaml
+###### pyyaml
 
 I strongly recommend you to install it with pip.
 
