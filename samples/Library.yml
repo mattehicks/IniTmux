@@ -2,12 +2,15 @@
 name: Library
 root: /i/data/Library
 windows:
-- [EngComp     , two]
-- [Programming , engcomp]
-- [Tools       , engcomp]
-- [Sites       , two]
-- [Science     , two]
-- [Root        , two      , '']
+- EngComp     : two
+- Programming : engcomp
+- Tools       : engcomp
+- Sites       : two
+- Science     : two
+- Root: 
+    model: two
+    dir: ''
+
 models:
     two:
         layout: tiled

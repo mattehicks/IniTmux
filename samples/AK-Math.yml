@@ -2,14 +2,15 @@
 name: AK-Math 
 root: /i/project/LibAK/feature/Math
 windows:
-- [Matrix  , three]
-- [Vector  , three]
-- [Number  , three]
-- [Complex , three]
-- [Real    , three]
-- [Integer , three]
-- [Bool    , three]
-- [Math    , two]
+- Matrix  : three
+- Vector  : three
+- Number  : three
+- Complex : three
+- Real    : three
+- Integer : three
+- Bool    : three
+- Math    : two
+
 models:
     two:
         layout: tiled

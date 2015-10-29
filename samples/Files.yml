@@ -2,11 +2,11 @@
 name: Files
 root: /i/data
 windows:
-- [Videos    , two]
-- [Downloads , two]
-- [Musics    , two]
-- [Study     , two]
-- [Mount     , mount]
+- Videos    : two
+- Downloads : two
+- Musics    : two
+- Study     : two
+- Mount     : mount
 - [Root      , two    , '']
 #- [Images    , two]
 #- [Personal, two]

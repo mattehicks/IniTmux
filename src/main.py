@@ -78,13 +78,20 @@ def SetLayout(SName,WNumber,Layout): #{{{
 #}}}
 
 # Creation Functions
-def CreatePanesByModel(SName,WName,WNumber,Root,Model,SpecificDir): #{{{
-    Layout = Model.get('layout') or Model.get('Layout')
-    Panes  = Model.get('panes')  or Model.get('Panes')
-    Dir = ''
+def CreatePanes(SName,WName,WNumber,Root,Model,SpecificDir,SpecificLayout): #{{{
+
+    if SpecificLayout is None:
+        Layout = Model.get('layout')
+        if Layout is not None:
+            Layout = re.sub(WPattern,WName,Layout)
+            Layout = re.sub(SPattern,SName,Layout)
+    else:
+        Layout = SpecificLayout
+        Layout = re.sub(WPattern,WName,Layout)
+        Layout = re.sub(SPattern,SName,Layout)
 
     if SpecificDir is None:
-        Dir    = Model.get('dir')    or Model.get('Dir')
+        Dir    = Model.get('dir')
         if Dir is not None:
             Dir = re.sub(WPattern,WName,Dir)
             Dir = re.sub(SPattern,SName,Dir)
@@ -93,10 +100,12 @@ def CreatePanesByModel(SName,WName,WNumber,Root,Model,SpecificDir): #{{{
         Dir = re.sub(WPattern,WName,Dir)
         Dir = re.sub(SPattern,SName,Dir)
 
+
     if   Root is None and Dir is None:
         Directory = os.path.expanduser('~')
 
     elif Root is None and Dir is not None:
+        Dir = re.sub(r" ",'\ ',Dir)
         Directory = os.path.expanduser(Dir)
 
     elif Root is not None and Dir is None:
@@ -107,9 +116,12 @@ def CreatePanesByModel(SName,WName,WNumber,Root,Model,SpecificDir): #{{{
     elif Root is not None and Dir is not None:
         Root = re.sub(WPattern,WName,Root)
         Root = re.sub(SPattern,SName,Root)
+        Dir = re.sub(r" ",'\ ',Dir)
         Directory = os.path.expanduser(Root)+'/'+str(Dir)
 
     print('    --> Window: '+WName)
+
+    Panes  = Model.get('panes')
 
     if type(Panes) is int:
         for PNumber in range(Panes):
@@ -139,6 +151,7 @@ def CreateWindows(SName,Root,Models,Windows): #{{{
     for WNumber in range(len(Windows)):
         Window = Windows[WNumber]
         SpecificDir = None
+        SpecificLayout = None
         if type(Window) == type([]):
             WName = Window[0]
             WModelName = Window[1]
@@ -151,22 +164,23 @@ def CreateWindows(SName,Root,Models,Windows): #{{{
             Model = Window[WName]
             if type(Model) == type(''):
                 Model = Models[Model]
-            #elif type(Model) == type({}):
-            #    Layout = Model.get('layout') or Model.get('Layout')
-            #    Panes  = Model.get('panes')  or Model.get('Panes')
-            #    WModelName = Model.get('model')  or Model.get('Model')
-            #    SpecificDir = Model.get('dir')  or Model.get('Dir')
+            elif type(Model) == type({}):
+                SpecificLayout = Model.get('layout')
+                WModelName = Model.get('model')
+                SpecificDir = Model.get('dir')
+                if WModelName is not None:
+                    Model = Models[WModelName]
 
         NewWindow(SName,WName,WNumber)
-        CreatePanesByModel(SName,WName,WNumber,Root,Model,SpecificDir)
+        CreatePanes(SName,WName,WNumber,Root,Model,SpecificDir,SpecificLayout)
     
 #}}}
 def CreateSession(YAML): #{{{
 
-    SName   = YAML.get('name')    or YAML.get('Name')
-    Root    = YAML.get('root')    or YAML.get('Root')
-    Models  = YAML.get('models')  or YAML.get('Models')
-    Windows = YAML.get('windows') or YAML.get('Windows')
+    SName   = YAML.get('name')
+    Root    = YAML.get('root')
+    Models  = YAML.get('models')
+    Windows = YAML.get('windows')
 
     print()
     print('  Creating Session: '+SName)
@@ -184,8 +198,7 @@ def CreateSessions(FilesDirectory): #{{{
         Stream = open(File,'r')
         try:
             YAMLs.append(load(Stream))
-            SName = YAMLs[SNumber].get('name') or \
-                    YAMLs[SNumber].get('Name')
+            SName = YAMLs[SNumber].get('name')
             SNames.append(SName)
         except:
             pass

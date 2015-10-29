@@ -1,11 +1,11 @@
 ---
 name: Packagers
 windows:
-- [Pacman , two]
-- [Yaourt , two]
-- [npm    , two]
-- [gem    , two]
-- [pip    , two]
+- Pacman : two
+- Yaourt : two
+- npm    : two
+- gem    : two
+- pip    : two
 models:
     two:
         layout: even-horizontal

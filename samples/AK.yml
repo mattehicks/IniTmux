@@ -2,11 +2,11 @@
 name: AK-Home
 root: /i/project/LibAK
 windows:
-- [Makefile , feature]
-- [wiki     , vertical]
-- [develop  , root]
-- [master   , vertical]
-- [Manager  , vertical,''] # Empty Specific Sub-Directory
+- Makefile : feature
+- wiki     : vertical
+- develop  : root
+- master   : vertical
+- [Manager, vertical,''] # Empty Specific Sub-Directory
 models:
     vertical:
         layout: even-vertical
