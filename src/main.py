@@ -82,13 +82,8 @@ def CreatePanes(SName,WName,WNumber,Root,Model,SpecificDir,SpecificLayout): #{{{
 
     if SpecificLayout is None:
         Layout = Model.get('layout')
-        if Layout is not None:
-            Layout = re.sub(WPattern,WName,Layout)
-            Layout = re.sub(SPattern,SName,Layout)
     else:
         Layout = SpecificLayout
-        Layout = re.sub(WPattern,WName,Layout)
-        Layout = re.sub(SPattern,SName,Layout)
 
     if SpecificDir is None:
         Dir    = Model.get('dir')

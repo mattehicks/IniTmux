@@ -5,14 +5,15 @@ windows:
 - List     : three
 - NodeList : three
 - Info     : three
-- Data     : two
+
+- Data:
+    layout: "1c1a,113x31,0,0[113x5,0,0,9,113x26,0,6,10]"
+    dir: branch
+    panes:
+    - 'ranger'
+    - ''
+
 models:
-    two:
-        layout: "1c1a,113x31,0,0[113x5,0,0,9,113x26,0,6,10]"
-        dir: branch
-        panes:
-        - 'ranger'
-        - ''
     three:
         layout: "40fd,113x31,0,0[113x22,0,0{22x22,0,0,0,90x22,23,0,1},113x9,0,23,2]"
         dir: <WName>
