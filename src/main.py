@@ -225,6 +225,33 @@ def CreateSessions(FilesDirectory): #{{{
             CreateSession(YAMLs[SNumber])
 
 #}}}
+def GetTmuxWorkspace(): #{{{
+    ListSessions = system('tmux list-sessions')
+
+    ListSessions = ListSessions.split("\n")
+
+    Sessions = []
+
+    for i in range(len(ListSessions)):
+        ListSessions[i] = ListSessions[i].split("windows")[0].split(":")[0]
+        Sessions.append({'name':ListSessions[i],'windows':[]})
+    
+    for i in range(len(Sessions)):
+        ListWindows = system('tmux list-windows -t '+Sessions[i]['name'])
+        ListWindows = ListWindows.split("\n")
+        for j in range(len(ListWindows)):
+            #print(ListWindows[j])
+            find = re.findall(r"[0-9]+: [\w]+",ListWindows[j])
+            find = find[0].split(":")
+            WNumber = int(find[0])
+            WName   = find[1].strip()
+            Window = {'name':WName,'WNumber':WNumber}
+            Sessions[i]['windows'].append(Window)
+
+        print(dump(Sessions))
+    
+#SPattern = r"<(?i)(sessionn|sn|sesn|sessn)ame>"
+#}}}
 
 # Default Directory
 FilesDirectory = os.path.expanduser('~/.config/IniTmux')
@@ -235,5 +262,8 @@ print('---------------------------------------------')
 CreateSessions(FilesDirectory)
 print()
 print('Done. Type: "tmux attach-session" To Checkout your Sessions!')
+
 #input('')
 #call('killall tmux',shell=True)
+
+#GetTmuxWorkspace()
