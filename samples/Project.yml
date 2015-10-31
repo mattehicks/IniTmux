@@ -2,9 +2,10 @@
 name: Project
 root: /i/project
 windows:
-- [IniTmux , two]
-- [VWS     , two]
-- [Root , two, '']
+- IniTmux : two
+- VWS     : two
+- Root: 
+    panes: 2
 models:
     two:
         layout: tiled

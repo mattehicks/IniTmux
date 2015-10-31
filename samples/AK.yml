@@ -6,7 +6,8 @@ windows:
 - wiki     : vertical
 - develop  : root
 - master   : vertical
-- [Manager, vertical,''] # Empty Specific Sub-Directory
+- Root: 
+    panes: 2
 models:
     vertical:
         layout: even-vertical

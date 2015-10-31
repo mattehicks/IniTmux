@@ -71,6 +71,8 @@ def ApplyCommand(SName,WNumber,PNumber,Command): #{{{
 def SetLayout(SName,WNumber,Layout): #{{{
     if Layout in TmuxLayouts:
         return call('tmux select-layout -t '+re.escape(SName)+':'+str(WNumber)+' '+re.escape(Layout),shell=True)
+    elif Layout is None:
+        return call('tmux select-layout -t '+re.escape(SName)+':'+str(WNumber)+' tiled',shell=True)
     else:
         call('tmux select-layout -t '+re.escape(SName)+':'+str(WNumber)+' tiled',shell=True)
         return call('tmux select-layout -t '+re.escape(SName)+':'+str(WNumber)+' '+re.escape(Layout),shell=True)
