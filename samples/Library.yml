@@ -7,9 +7,8 @@ windows:
 - Tools       : engcomp
 - Sites       : two
 - Science     : two
-- Root: 
-    model: two
-    dir: ''
+
+- Root: 2
 
 models:
     two:

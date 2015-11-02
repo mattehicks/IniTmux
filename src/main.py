@@ -336,6 +336,9 @@ def CreateWindows(SName,Root,Models,Windows): #{{{
                 SpecificDir = Model.get('dir')
                 if WModelName is not None:
                     Model = Models[WModelName]
+            elif type(Model) == type(0):
+                NPanes = Model
+                Model = {'panes':NPanes}
 
         if WName not in GetTmuxWindowsNames(SName):
             NewWindow(SName,WName,WNumber)

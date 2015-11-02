@@ -7,9 +7,8 @@ windows:
 - Musics    : two
 - Study     : two
 - Mount     : mount
-- Root: 
-    model: two
-    dir  : ''
+
+- Root: 2
 #- [Images    , two]
 #- [Personal, two]
 #- [UFPA, two]

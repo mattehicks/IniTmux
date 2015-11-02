@@ -7,8 +7,9 @@ windows:
     dir  : <WName>/master
 
 - VWS     : two
-- Root: 
-    panes: 2
+
+- Root: 2
+
 models:
     two:
         layout: tiled

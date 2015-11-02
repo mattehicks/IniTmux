@@ -215,6 +215,43 @@ Note:
     code (or even the entire code) was written with hurry, and still lacks of organization. With time, I'll take 
     care of this feature.
 
+###### Numeric Form
+
+Occurs when you want to create a window describing only its `number of panes`. In this case, IniTmux will take 
+default values for `dir` and `layout` attributes, which is `''` for both. I also have to say that no command will
+be executed for each pane.
+
+The syntax is:
+
+```yaml
+windows:
+- <WindowName> : <NumberOfPanes>
+```
+
+Example:
+
+```yaml
+---
+name: Doc
+root: /i/conf/doc
+
+windows:
+- man    : ranger
+- vim    : ranger
+- sh     : ranger
+- python : ranger
+
+- Root: 2 # This window is described in Numeric Form
+
+models:
+    ranger:
+        layout: "076b,113x31,0,0[113x23,0,0,0,113x8,0,24,1]"
+        dir: <WName>
+        panes:
+            - ranger
+            - ''
+```
+
 ###### Yes, you can mix all these forms together when describing windows
 
 Example:
@@ -238,6 +275,8 @@ windows:
     model: two
     dir: 'Documents/Livros'
     layout: tiled
+
+- Doc: 3           # Numeric Form
 
 models:
     three:
@@ -421,9 +460,13 @@ and they are used only inside the function `CreatePanes`. So, if you want to cha
 
 # Related Projects
 
-If IniTmux does not suit you needs, then you can checkout these projects:
+If IniTmux does not suits your needs, then you can take a look at these projects:
 
 [Tmuxinator](https://github.com/tmuxinator/tmuxinator)
+
+# Tips
+
+TODO
 
 # Dependencies
 
@@ -443,4 +486,9 @@ I strongly recommend you to install it with pip.
 
 # TODO
 
-I'm now trying to implement reload operations.
+1. Reload Operations
+
+    I'm now trying to implement reload operations. `Without success!`
+
+2. Console Argument Parser
+3. Install and Uninstall Script

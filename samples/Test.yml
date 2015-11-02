@@ -1,0 +1,15 @@
+---
+name: Test
+windows:
+
+- A: model
+- B: model
+- N: model
+- C: model
+- D: model
+- E: model
+- M: model
+
+models:
+    model:
+        panes: 2

@@ -1,23 +1,19 @@
 ---
 name: AK-Home
 root: /i/project/LibAK
+
 windows:
 - Makefile : feature
 - wiki     : vertical
 - develop  : root
 - master   : vertical
-- Root: 
-    panes: 2
+
+- Root: 2
+
 models:
     vertical:
         layout: even-vertical
         dir: <WName> 
-        panes:
-        - 'ranger'
-        - ''
-    two:
-        layout: tiled
-        dir: branch
         panes:
         - 'ranger'
         - ''
@@ -26,7 +22,7 @@ models:
         dir: feature/<WName>
         panes:
         - loop "tree obj" 0.5
-        - vim -c LoadWorkSpace
+        - vim -c VWSLoadWorkSpace
         - ''
     root:
         layout: tiled
