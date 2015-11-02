@@ -19,11 +19,16 @@ TmuxLayouts.append('even-horizontal')
 TmuxLayouts.append('even-vertical')
 TmuxLayouts.append('main-horizontal')
 TmuxLayouts.append('main-vertical')
+FilesDirectory = os.path.expanduser('~/.config/IniTmux')
 
-# Tmux Functions
+# Tmux Functions {{{
+def SwapWindows(SName,WNumber1,WNumber2): #{{{
+    Command = 'tmux swap-window'+ ' -s '+SName+':'+str(WNumber1)+ ' -t '+SName+':'+str(WNumber2)
+    print(Command)
+    return call(Command,shell=True)
+#}}}
 def NewSession(SName): #{{{
     return call('tmux new-session -s '+re.escape(SName)+' -d',shell=True)
-
 
 #}}}
 def NewWindow(SName,WName,WNumber): #{{{
@@ -79,7 +84,172 @@ def SetLayout(SName,WNumber,Layout): #{{{
 
 #}}}
 
-# Creation Functions
+#}}}
+
+# Load and Get Functions {{{
+def LoadYAMLs(FilesDirectory): #{{{
+    YAMLs = []
+    Files = system('ls '+FilesDirectory).split("\n")
+    for SNumber in range(len(Files)):
+        File = FilesDirectory+'/'+Files[SNumber]
+        Stream = open(File,'r')
+        try:
+            YAMLs.append(load(Stream))
+        except:
+            pass
+        Stream.close()
+    return YAMLs
+#}}}
+def GetSessionsNamesFromYAMLs(YAMLs): #{{{
+    SNames = []
+    for SNumber in range(len(YAMLs)):
+        SName = YAMLs[SNumber].get('name')
+        if SName not in SNames+[None]:
+            SNames.append(SName)
+
+    return SNames
+#}}}
+def GetSesssionsToLoad(SNames): #{{{
+
+    print()
+    print('Select The Sessions [0 1 2 ...]:')
+    print()
+    for SNumber in range(len(SNames)):
+        print('    ['+str(SNumber)+'] '+SNames[SNumber])
+
+    print()
+    Input = input('Create All Sessions [Enter To Chose All]?')
+    call('clear')
+
+    SessionsToLoad = []
+    if Input == '':
+        SessionsToLoad = range(len(SNames))
+    else:
+        for Choice in Input.strip().split(' '):
+            if Choice and (not Choice in SessionsToLoad) and Choice.isdigit():
+                SessionsToLoad.append(Choice)
+
+    return SessionsToLoad
+#}}}
+def GetTmuxSessionsNames(): #{{{
+    ListSessions = system('tmux list-sessions')
+    if not ListSessions == 'failed to connect to server: Connection refused':
+        ListSessions = system("tmux list-sessions -F '#S'")
+        return ListSessions.split("\n")
+    else:
+        return []
+
+#}}}
+def GetTmuxWindowsNames(SName): #{{{
+    ListSessions = system('tmux list-sessions')
+    if not ListSessions == 'failed to connect to server: Connection refused':
+        ListWindows = system("tmux list-windows -t "+SName+" -F '#W'")
+        return ListWindows.split("\n")
+    else:
+        return []
+
+#}}}
+def GetTmuxNPanes(SName): #{{{
+    ListSessions = system('tmux list-sessions')
+    if not ListSessions == 'failed to connect to server: Connection refused':
+        NPanes = system("tmux list-windows -t "+SName+" -F '#{window_panes}'")
+        return NPanes.split("\n")
+    else:
+        return []
+
+#}}}
+def GetTmuxWorkspace(): #{{{
+
+    ListSessions = system('tmux list-sessions')
+    if not ListSessions == 'failed to connect to server: Connection refused':
+        ListSessions = ListSessions.split("\n")
+
+        Sessions = []
+
+        for i in range(len(ListSessions)):
+            ListSessions[i] = ListSessions[i].split("windows")[0].split(":")[0]
+            Sessions.append({'name':ListSessions[i],'windows':[]})
+        
+        for i in range(len(Sessions)):
+            ListWindows = system('tmux list-windows -t '+Sessions[i]['name'])
+            ListWindows = ListWindows.split("\n")
+            for j in range(len(ListWindows)):
+                # Search for Number and Name
+                find = re.findall(r"[0-9]+: [\w]+",ListWindows[j])
+                find = find[0].split(":")
+                WNumber = int(find[0])
+                WName   = find[1].strip()
+
+                # Search for Size
+                WSize = re.findall(r"\[[\d]+x[\d]+\]",ListWindows[j])[0].strip(r"(?:[|])")
+
+                # Search for Layout
+                WLayout = re.findall(r"\[layout [\d\w,\[\]\{\}]+\]",ListWindows[j])[0].strip(r"[layout")
+                WLayout = re.sub(r"]$","",WLayout)
+
+                # Search for Number of Panes
+                NPanes = int(re.findall(r"\([\d]+ panes\)",ListWindows[j])[0].strip(r"(?:\(|panes\))"))
+
+                Window = {}
+                Window['WName']   = WName
+                Window['WNumber'] = WNumber
+                Window['WSize']   = WSize
+                Window['WLayout'] = WLayout.strip()
+                Window['NPanes']  = NPanes
+
+                Sessions[i]['windows'].append(Window)
+
+                #print(ListWindows[j])
+
+        print(dump(Sessions[0]))
+        stream = open("samples/Project.yml",'r')
+        pprint(load(stream))
+    
+#SPattern = r"<(?i)(sessionn|sn|sesn|sessn)ame>"
+#}}}
+def GetWindowsNames(Windows): #{{{
+    WNames = []
+    for WNumber in range(len(Windows)):
+        Window = Windows[WNumber]
+        if type(Window) == type([]):
+            WName = Window[0]
+        elif type(Window) == type({}):
+            WName = list(Window.keys())[0]
+
+        if WName not in WNames:
+            WNames.append(WName)
+
+    return WNames
+#}}}
+def GetWindowsModels(Models,Windows):#{{{
+    WModels = []
+    for WNumber in range(len(Windows)):
+        Window = Windows[WNumber]
+        if type(Window) == type([]):
+            WModelName = Window[1]
+            Model = Models[WModelName]
+        elif type(Window) == type({}):
+            WName = list(Window.keys())[0]
+            Model = Window[WName]
+            if type(Model) == type(''):
+                Model = Models[Model]
+            elif type(Model) == type({}):
+                WModelName = Model.get('model')
+                if WModelName is not None:
+                    Model = Models[WModelName]
+
+        if Model not in WModels:
+            WModels.append(Model)
+
+    return WModels
+#}}}
+def ReloadWindows(SName): #{{{
+    pass
+
+#}}}
+#}}}
+
+# Creation Functions {{{
 def CreatePanes(SName,WName,WNumber,Root,Model,SpecificDir,SpecificLayout): #{{{
 
     if SpecificLayout is None:
@@ -144,7 +314,6 @@ def CreatePanes(SName,WName,WNumber,Root,Model,SpecificDir,SpecificLayout): #{{{
 
 #}}}
 def CreateWindows(SName,Root,Models,Windows): #{{{
-
     for WNumber in range(len(Windows)):
         Window = Windows[WNumber]
         SpecificDir = None
@@ -168,9 +337,12 @@ def CreateWindows(SName,Root,Models,Windows): #{{{
                 if WModelName is not None:
                     Model = Models[WModelName]
 
-        NewWindow(SName,WName,WNumber)
-        CreatePanes(SName,WName,WNumber,Root,Model,SpecificDir,SpecificLayout)
-    
+        if WName not in GetTmuxWindowsNames(SName):
+            NewWindow(SName,WName,WNumber)
+            CreatePanes(SName,WName,WNumber,Root,Model,SpecificDir,SpecificLayout)
+
+    ReloadWindows(SName)
+
 #}}}
 def CreateSession(YAML): #{{{
 
@@ -180,81 +352,28 @@ def CreateSession(YAML): #{{{
     Windows = YAML.get('windows')
 
     print()
-    print('  Creating Session: '+SName)
-    if not NewSession(SName):
-        CreateWindows(SName,Root,Models,Windows)
+    if not SName in GetTmuxSessionsNames():
+        print('  Creating  Session: '+SName)
+        NewSession(SName)
+    else:
+        print('  Reloading Session: '+SName)
+
+    CreateWindows(SName,Root,Models,Windows)
 
 
 #}}}
 def CreateSessions(FilesDirectory): #{{{
-    SNames = []
-    YAMLs = []
-    Files = system('ls '+FilesDirectory).split("\n")
-    for SNumber in range(len(Files)):
-        File = FilesDirectory+'/'+Files[SNumber]
-        Stream = open(File,'r')
-        try:
-            YAMLs.append(load(Stream))
-            SName = YAMLs[SNumber].get('name')
-            SNames.append(SName)
-        except:
-            pass
-        Stream.close()
+    YAMLs = LoadYAMLs(FilesDirectory)
+    SNames = GetSessionsNamesFromYAMLs(YAMLs)
 
-    print()
-    print('Select The Sessions [0 1 2 ...]:')
-    print()
-    for SNumber in range(len(SNames)):
-        print('    ['+str(SNumber)+'] '+SNames[SNumber])
-
-    print()
-    Option = input('Create All Sessions [Enter To Chose All]?')
-    call('clear')
-
-    SessionsToLoad = []
-    if Option == '':
-        SessionsToLoad = range(len(SNames))
-    else:
-        for Choice in Option.strip().split(' '):
-            if Choice and (not Choice in SessionsToLoad) and Choice.isdigit():
-                SessionsToLoad.append(Choice)
-
-    for SNumber in SessionsToLoad:
+    for SNumber in GetSesssionsToLoad(SNames):
         SNumber = int(SNumber)
         if SNumber in range(len(SNames)):
             CreateSession(YAMLs[SNumber])
 
 #}}}
-def GetTmuxWorkspace(): #{{{
-    ListSessions = system('tmux list-sessions')
-
-    ListSessions = ListSessions.split("\n")
-
-    Sessions = []
-
-    for i in range(len(ListSessions)):
-        ListSessions[i] = ListSessions[i].split("windows")[0].split(":")[0]
-        Sessions.append({'name':ListSessions[i],'windows':[]})
-    
-    for i in range(len(Sessions)):
-        ListWindows = system('tmux list-windows -t '+Sessions[i]['name'])
-        ListWindows = ListWindows.split("\n")
-        for j in range(len(ListWindows)):
-            #print(ListWindows[j])
-            find = re.findall(r"[0-9]+: [\w]+",ListWindows[j])
-            find = find[0].split(":")
-            WNumber = int(find[0])
-            WName   = find[1].strip()
-            Window = {'name':WName,'WNumber':WNumber}
-            Sessions[i]['windows'].append(Window)
-
-        print(dump(Sessions))
-    
-#SPattern = r"<(?i)(sessionn|sn|sesn|sessn)ame>"
 #}}}
-
 # Default Directory
-FilesDirectory = os.path.expanduser('~/.config/IniTmux')
 
 call('clear')
 print()
@@ -266,4 +385,4 @@ print('Done. Type: "tmux attach-session" To Checkout your Sessions!')
 #input('')
 #call('killall tmux',shell=True)
 
-#GetTmuxWorkspace()
+#ReloadWindows('Test')

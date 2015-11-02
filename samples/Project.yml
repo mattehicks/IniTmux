@@ -2,7 +2,10 @@
 name: Project
 root: /i/project
 windows:
-- IniTmux : two
+- IniTmux:
+    model: two
+    dir  : <WName>/master
+
 - VWS     : two
 - Root: 
     panes: 2
