@@ -21,6 +21,7 @@ TmuxLayouts.append('main-horizontal')
 TmuxLayouts.append('main-vertical')
 FilesDirectory = os.path.expanduser('~/.config/IniTmux')
 
+
 # Tmux Functions {{{
 def SwapWindows(SName,WNumber1,WNumber2): #{{{
     Command = 'tmux swap-window'+ ' -s '+SName+':'+str(WNumber1)+ ' -t '+SName+':'+str(WNumber2)

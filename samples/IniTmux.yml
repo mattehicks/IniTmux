@@ -1,8 +1,9 @@
 ---
-name: Project
-root: /i/project
+name: IniTmux
+root: /i/project/IniTmux
 windows:
-- VWS     : two
+- master: two
+- samples: two
 
 - Root: 2
 
