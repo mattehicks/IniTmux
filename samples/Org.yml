@@ -1,0 +1,6 @@
+---
+name: Organizer
+windows:
+- Calcurse:
+    panes:
+    - calcurse

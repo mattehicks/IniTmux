@@ -379,7 +379,7 @@ $ tree -L 1 -d /i/project/LibAK/feature/Math
 └── Vector
 ```
 
-All of that directories, except `branch`, has a lot in common when creating windows for each one of them.
+All of these directories, except `branch`, has a lot in common when creating windows for each one of them.
 
 1. The name of the directory will be the name of the window;
 2. All windows will share the same layout;
