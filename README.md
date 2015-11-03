@@ -427,7 +427,8 @@ can also see that I've described specific settings for the `Math` window, once i
 
 ### List of Possible Wildcards
 
-A wildcard can be used inside any of the following attibutes: `root` and  `dir`.
+A wildcard can be used inside any of the following attibutes: `root`, `dir`, and inside any command line described 
+into `panes` attibutes.
 
 Each wildcard must be written inside `<` and `>`. What will be inside can vary as follows:
 
@@ -446,6 +447,9 @@ all of these wildcards will be expaded to the sessin name.
 ```text
     root: '~/<SessionName>'
     dir : 'feature/<SName>/trash/<WName>'
+    panes:
+    - cd /i/project/<sname>
+    - cd
 ```
 
 you can write a wildcard ignoring the case of the letters. This can be done thanks to thPython's regex module. 
