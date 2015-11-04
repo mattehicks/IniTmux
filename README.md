@@ -521,7 +521,8 @@ and they are used only inside the function `CreatePanes`. So, if you want to cha
 
 If IniTmux does not suits your needs, then you can take a look at these projects:
 
-[Tmuxinator](https://github.com/tmuxinator/tmuxinator)
+1. [Tmuxinator](https://github.com/tmuxinator/tmuxinator)
+2. [Teamocil](https://github.com/remiprev/teamocil)
 
 # Tips
 
