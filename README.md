@@ -252,6 +252,59 @@ models:
             - ''
 ```
 
+###### Command Form
+
+Occurs when you want to create a window, with a single pane, and execute a command inside this pane. In this case, IniTmux will 
+assume default values for `layout` and `dir`.
+
+The syntax is:
+
+```yaml
+windows:
+- <WindowName> : <Command>
+```
+
+Example:
+
+```yaml
+---
+name: Doc
+root: /i/conf/doc
+
+windows:
+- man    : ranger
+
+- Root: 2               
+
+- other : watch df -h   # This window is described in Command Form
+
+models:
+    ranger:
+        layout: "076b,113x31,0,0[113x23,0,0,0,113x8,0,24,1]"
+        dir: <WName>
+        panes:
+            - ranger
+            - ''
+```
+
+Note: If you have created a model with the same name of the command that you want to use in this case, IniTmux will apply 
+the model instead of the single command. But, there is a trick you can do to avoid this. See this example:
+
+```yaml
+---
+name: Test
+windows:
+- A: tree
+- B: tree
+- C: 'tree '
+
+models:
+    tree:
+        panes: 2
+```
+
+See what I did here? I putted the command inside `'` `'`, with a space after the command.
+
 ###### Yes, you can mix all these forms together when describing windows
 
 Example:
@@ -269,14 +322,16 @@ windows:
     - cd /usr
     - cd /boot
 
-- Library: three    # Model Form
+- Library: three            # Model Form
 
-- Books:            # Overwrite Form
+- Books:                    # Overwrite Form
     model: two
     dir: 'Documents/Livros'
     layout: tiled
 
-- Doc: 3           # Numeric Form
+- Doc: 3                     # Numeric Form
+
+- other : watch df -h        # Command Form
 
 models:
     three:

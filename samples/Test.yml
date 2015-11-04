@@ -1,15 +1,14 @@
 ---
 name: Test
 windows:
-
-- A: model
-- B: model
-- N: model
-- C: model
-- D: model
-- E: model
-- M: model
+- A: tree
+- B: tree
+- N: tree
+- C: tree
+- D: tree
+- E: tree
+- M: 'tree'
 
 models:
-    model:
+    tree:
         panes: 2

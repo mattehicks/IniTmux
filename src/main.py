@@ -330,7 +330,10 @@ def CreateWindows(SName,Root,Models,Windows): #{{{
             WName = list(Window.keys())[0]
             Model = Window[WName]
             if type(Model) == type(''):
-                Model = Models[Model]
+                if Model in Models.keys():
+                    Model = Models[Model]
+                else:
+                    Model = {'panes':[Model]}
             elif type(Model) == type({}):
                 SpecificLayout = Model.get('layout')
                 WModelName = Model.get('model')

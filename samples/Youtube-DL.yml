@@ -33,3 +33,11 @@ windows:
             - cd "Speak Natural American English"
             - dy links
         - ''
+- French:
+    layout: tiled
+    dir: Tutorials/<WName>
+    panes:
+        - p1:
+            - cd "French for Beginners"
+            - dy links
+        - ''

@@ -1,22 +1,6 @@
 # --> Marker
-AK-Math.yml
-AK-Data.yml
-AK.yml
+src/main.py
 # --> Marker
-Youtube-DL.yml
+README.md
 # --> Marker
 Test.yml
-# --> Marker
-Project.yml
-# --> Marker
-Packagers.yml
-# --> Marker
-Org.yml
-# --> Marker
-Library.yml
-# --> Marker
-IniTmux.yml
-# --> Marker
-Files.yml
-# --> Marker
-Doc.yml
