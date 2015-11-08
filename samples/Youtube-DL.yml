@@ -8,14 +8,8 @@ windows:
     layout: "848e,141x53,0,0[141x26,0,0{70x26,0,0[70x13,0,0,33,70x12,0,14,48],70x26,71,0[70x13,71,0,45,70x12,71,14,47]},141x26,0,27,34]"
     dir: Tutorials/<WName>
     panes:
-        - p1:
-            - cd "Direito Constitucional"
-            - dy links
         - p2:
             - cd "Direito Previdenciário"
-            - dy links
-        - p3:
-            - cd "Raciocínio Lógico"
             - dy links
         - p4:
             - cd "Técnico"
@@ -33,11 +27,17 @@ windows:
             - cd "Speak Natural American English"
             - dy links
         - ''
-- French:
-    layout: tiled
+
+- MIT:
     dir: Tutorials/<WName>
     panes:
         - p1:
-            - cd "French for Beginners"
+            - cd "MIT 6.851 Advanced Data Structures, Spring 2012"
             - dy links
         - ''
+
+- Windows: 
+    dir: Tutorials/<WName>
+    panes: 
+    - dy links
+    - ''

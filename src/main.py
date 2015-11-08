@@ -24,19 +24,25 @@ FilesDirectory = os.path.expanduser('~/.config/IniTmux')
 
 # Tmux Functions {{{
 def SwapWindows(SName,WNumber1,WNumber2): #{{{
-    Command = 'tmux swap-window'+ ' -s '+SName+':'+str(WNumber1)+ ' -t '+SName+':'+str(WNumber2)
-    print(Command)
+    Command = 'tmux swap-window -s '+SName+':'+str(WNumber1)+ ' -t '+SName+':'+str(WNumber2)
     return call(Command,shell=True)
 #}}}
 def NewSession(SName): #{{{
-    return call('tmux new-session -s '+re.escape(SName)+' -d',shell=True)
+    SName = re.escape(SName)
+    Command = 'tmux new-session -s '+SName+' -d'
+    return call(Command,shell=True)
 
 #}}}
 def NewWindow(SName,WName,WNumber): #{{{
+    WName = re.escape(WName)
+    SName = re.escape(SName)
+
     if WNumber > 0:
-        return call('tmux new-window -n '+WName+' -t '+SName,shell=True)
+        Command = 'tmux new-window -n '+WName+' -t '+SName
     else:
-        return call('tmux rename-window -t '+re.escape(SName)+':0 '+WName,shell=True)
+        Command = 'tmux rename-window -t '+SName+':0 '+WName
+
+    return call(Command,shell=True)
 
 #}}}
 def NewPane(SName,WNumber,PNumber,Command,Directory): #{{{
@@ -101,7 +107,7 @@ def LoadYAMLs(FilesDirectory): #{{{
         Stream.close()
     return YAMLs
 #}}}
-def GetSessionsNamesFromYAMLs(YAMLs): #{{{
+def GetSessionNamesFromYAMLs(YAMLs): #{{{
     SNames = []
     for SNumber in range(len(YAMLs)):
         SName = YAMLs[SNumber].get('name')
@@ -127,12 +133,12 @@ def GetSesssionsToLoad(SNames): #{{{
         SessionsToLoad = range(len(SNames))
     else:
         for Choice in Input.strip().split(' '):
-            if Choice and (not Choice in SessionsToLoad) and Choice.isdigit():
+            if Choice and (Choice not in SessionsToLoad) and Choice.isdigit():
                 SessionsToLoad.append(Choice)
 
     return SessionsToLoad
 #}}}
-def GetTmuxSessionsNames(): #{{{
+def GetTmuxSessionNames(): #{{{
     ListSessions = system('tmux list-sessions')
     if not ListSessions == 'failed to connect to server: Connection refused':
         ListSessions = system("tmux list-sessions -F '#S'")
@@ -141,7 +147,7 @@ def GetTmuxSessionsNames(): #{{{
         return []
 
 #}}}
-def GetTmuxWindowsNames(SName): #{{{
+def GetTmuxWindowNames(SName): #{{{
     ListSessions = system('tmux list-sessions')
     if not ListSessions == 'failed to connect to server: Connection refused':
         ListWindows = system("tmux list-windows -t "+SName+" -F '#W'")
@@ -160,7 +166,7 @@ def GetTmuxNPanes(SName): #{{{
 
 #}}}
 def GetTmuxWorkspace(): #{{{
-
+    # NOTE: This function will die soon!
     ListSessions = system('tmux list-sessions')
     if not ListSessions == 'failed to connect to server: Connection refused':
         ListSessions = ListSessions.split("\n")
@@ -208,7 +214,7 @@ def GetTmuxWorkspace(): #{{{
     
 #SPattern = r"<(?i)(sessionn|sn|sesn|sessn)ame>"
 #}}}
-def GetWindowsNames(Windows): #{{{
+def GetWindowNames(Windows): #{{{
     WNames = []
     for WNumber in range(len(Windows)):
         Window = Windows[WNumber]
@@ -222,7 +228,7 @@ def GetWindowsNames(Windows): #{{{
 
     return WNames
 #}}}
-def GetWindowsModels(Models,Windows):#{{{
+def GetWindowModels(Models,Windows):#{{{
     WModels = []
     for WNumber in range(len(Windows)):
         Window = Windows[WNumber]
@@ -250,7 +256,7 @@ def ReloadWindows(SName): #{{{
 #}}}
 #}}}
 
-# Creation Functions {{{
+# Creation Functions [Very Messy!]{{{
 def CreatePanes(SName,WName,WNumber,Root,Model,SpecificDir,SpecificLayout): #{{{
 
     if SpecificLayout is None:
@@ -344,7 +350,7 @@ def CreateWindows(SName,Root,Models,Windows): #{{{
                 NPanes = Model
                 Model = {'panes':NPanes}
 
-        if WName not in GetTmuxWindowsNames(SName):
+        if WName not in GetTmuxWindowNames(SName):
             NewWindow(SName,WName,WNumber)
             CreatePanes(SName,WName,WNumber,Root,Model,SpecificDir,SpecificLayout)
 
@@ -359,7 +365,7 @@ def CreateSession(YAML): #{{{
     Windows = YAML.get('windows')
 
     print()
-    if not SName in GetTmuxSessionsNames():
+    if not SName in GetTmuxSessionNames():
         print('  Creating  Session: '+SName)
         NewSession(SName)
     else:
@@ -371,7 +377,7 @@ def CreateSession(YAML): #{{{
 #}}}
 def CreateSessions(FilesDirectory): #{{{
     YAMLs = LoadYAMLs(FilesDirectory)
-    SNames = GetSessionsNamesFromYAMLs(YAMLs)
+    SNames = GetSessionNamesFromYAMLs(YAMLs)
 
     for SNumber in GetSesssionsToLoad(SNames):
         SNumber = int(SNumber)
@@ -380,7 +386,6 @@ def CreateSessions(FilesDirectory): #{{{
 
 #}}}
 #}}}
-# Default Directory
 
 call('clear')
 print()
