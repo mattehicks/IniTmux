@@ -6,7 +6,7 @@ windows:
 - NodeList : feature
 - Info     : feature
 
-- Data:
+- Root:
     layout: "1c1a,113x31,0,0[113x5,0,0,9,113x26,0,6,10]"
     dir: branch
     panes:
@@ -20,4 +20,4 @@ models:
         panes:
         - loop "tree obj" 0.5
         - vim -c VWSLoadWorkSpace
-        - ''
+        - 'make clean && clear && git status'

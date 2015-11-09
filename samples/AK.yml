@@ -23,7 +23,7 @@ models:
         panes:
         - loop "tree obj" 0.5
         - vim -c VWSLoadWorkSpace
-        - ''
+        - 'make clean && clear && git status'
     root:
         layout: tiled
         dir: <WName>

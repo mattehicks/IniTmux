@@ -1,0 +1,14 @@
+---
+name: Studies
+root: /i
+windows:
+- INSS: two
+- MIT : two
+
+models:
+    two:
+        layout: tiled
+        dir   : data/Videos/Tutorials/<WName>
+        panes:
+        - ranger
+        - ''
