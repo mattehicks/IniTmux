@@ -1,21 +1,13 @@
 ---
-name: AK-Math 
+name: AK-Math
 root: /i/project/LibAK/feature/Math
 windows:
-- Matrix  : feature
-- Vector  : feature
-- Number  : feature
-- Complex : feature
-- Real    : feature
-- Integer : feature
-- Bool    : feature
+- Numbers: feature
+- Algebra: feature
 
-- Math:
-    layout : tiled
-    dir    : branch
-    panes  :
-    - 'ranger'
-    - ''
+- Math: 
+    dir: <WName>
+    panes: 2
 
 models:
     feature:
@@ -24,4 +16,4 @@ models:
         panes:
         - loop "tree obj" 0.5
         - vim -c VWSLoadWorkSpace
-        - ''
+        - 'make clean && clear && git status'

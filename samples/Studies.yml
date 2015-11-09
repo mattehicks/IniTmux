@@ -1,0 +1,25 @@
+---
+name: Studies
+root: /i
+
+windows:
+
+- English  : language
+- Greek    : language
+- Japanese : language
+- German   : language
+
+models:
+    language:
+        layout: tiled
+        dir   : data/Study/Languages/<WName>
+        panes:
+        - ranger
+        - ''
+
+    two:
+        layout: tiled
+        dir   : data/Videos/Tutorials/<WName>
+        panes:
+        - ranger
+        - ''

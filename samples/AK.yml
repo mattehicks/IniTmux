@@ -3,7 +3,6 @@ name: AK-Home
 root: /i/project/LibAK
 
 windows:
-- Makefile : feature
 - wiki     : vertical
 - develop  : root
 - master   : vertical
@@ -23,7 +22,7 @@ models:
         panes:
         - loop "tree obj" 0.5
         - vim -c VWSLoadWorkSpace
-        - ''
+        - 'make clean && clear && git status'
     root:
         layout: tiled
         dir: <WName>

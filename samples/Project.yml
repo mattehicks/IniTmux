@@ -3,6 +3,7 @@ name: Project
 root: /i/project
 windows:
 - VWS     : two
+- tmux    : two
 
 - Root: 2
 
