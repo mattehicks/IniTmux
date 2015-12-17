@@ -1,0 +1,26 @@
+---
+name: AK-Features
+root: /i/project/LibAK/feature/
+windows:
+- Data     : feature2
+- Common   : feature2
+- Makefile : feature2
+
+- Root: 2
+
+models:
+    feature:
+        layout: "40fd,113x31,0,0[113x22,0,0{22x22,0,0,0,90x22,23,0,1},113x9,0,23,2]"
+        dir: <WName>
+        panes:
+        - loop "tree obj" 0.5
+        - vim -c VWSLoadWorkSpace
+        - 'make clean && clear && git status'
+
+    feature2:
+        layout: "6f9a,92x27,0,0[92x20,0,0{25x20,0,0,3,66x20,26,0,4},92x7,0,21,5]"
+        dir: <WName>
+        panes:
+        - loop "tree obj" 0.5
+        - vim -c VWSLoadWorkSpace
+        - 'make clean && clear && git status'
