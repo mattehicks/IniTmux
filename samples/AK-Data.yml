@@ -1,0 +1,23 @@
+---
+name: AK-Data
+root: /i/project/LibAK/feature/Data
+windows:
+- List     : feature
+- NodeList : feature
+- Info     : feature
+
+- Root:
+    layout: "1c1a,113x31,0,0[113x5,0,0,9,113x26,0,6,10]"
+    dir: branch
+    panes:
+    - 'ranger'
+    - ''
+
+models:
+    feature:
+        layout: "40fd,113x31,0,0[113x22,0,0{22x22,0,0,0,90x22,23,0,1},113x9,0,23,2]"
+        dir: <WName>
+        panes:
+        - loop "tree obj" 0.5
+        - vim -c VWSLoadWorkSpace
+        - 'make clean && clear && git status'
