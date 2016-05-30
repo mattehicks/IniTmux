@@ -5,21 +5,16 @@ root: /i
 windows:
 
 - English  : language
-- Greek    : language
 - Japanese : language
 - German   : language
+- Spanish  : language
+- French   : language
+- Italian  : language
 
 models:
     language:
         layout: tiled
         dir   : data/Study/Languages/<WName>
-        panes:
-        - ranger
-        - ''
-
-    two:
-        layout: tiled
-        dir   : data/Videos/Tutorials/<WName>
         panes:
         - ranger
         - ''

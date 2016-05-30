@@ -119,13 +119,15 @@ def GetSessionNamesFromYAMLs(YAMLs): #{{{
 def GetSesssionsToLoad(SNames): #{{{
 
     print()
-    print('Select The Sessions [0 1 2 ...]:')
+    print('Select Sessions [0 1 2 ...]:')
     print()
     for SNumber in range(len(SNames)):
         print('    ['+str(SNumber)+'] '+SNames[SNumber])
 
     print()
-    Input = input('Create All Sessions [Enter To Chose All]?')
+    print('    [x] Exit')
+    print()
+    Input = input('Create All Sessions [Enter To Choose All]?')
     call('clear')
 
     SessionsToLoad = []
@@ -135,6 +137,8 @@ def GetSesssionsToLoad(SNames): #{{{
         for Choice in Input.strip().split(' '):
             if Choice and (Choice not in SessionsToLoad) and Choice.isdigit():
                 SessionsToLoad.append(Choice)
+            elif Choice in ['x','X']:
+                pass
 
     return SessionsToLoad
 #}}}
@@ -392,7 +396,7 @@ print()
 print('---------------------------------------------')
 CreateSessions(FilesDirectory)
 print()
-print('Done. Type: "tmux attach-session" To Checkout your Sessions!')
+#print('Done. Type: "tmux attach-session" To Checkout your Sessions!')
 
 #input('')
 #call('killall tmux',shell=True)

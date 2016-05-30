@@ -1,0 +1,8 @@
+---
+name: Organizer
+root: /i/data/Things
+windows:
+- Organizer : 
+    layout: even-horizontal
+    panes:
+    - vim -c VWSLoadWorkSpace

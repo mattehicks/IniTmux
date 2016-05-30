@@ -4,6 +4,7 @@ root: /i/project/LibAK/feature/Math
 windows:
 - Numbers: feature
 - Algebra: feature
+- Calculus: feature
 
 - Math: 
     dir: <WName>
@@ -11,7 +12,7 @@ windows:
 
 models:
     feature:
-        layout: "40fd,113x31,0,0[113x22,0,0{22x22,0,0,0,90x22,23,0,1},113x9,0,23,2]"
+        layout: "fc42,127x36,0,0[127x25,0,0{27x25,0,0,0,99x25,28,0,1},127x11,0,26,2]"
         dir: <WName>
         panes:
         - loop "tree obj" 0.5
