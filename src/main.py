@@ -1,15 +1,24 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 
+import signal
 import os
+import subprocess
 import re
 from pprint import pprint
-from subprocess import getoutput as system
+try:
+    from subprocess import getoutput as system
+except ImportError:
+    def system(cmd):
+        process = subprocess.Popen(cmd.split(" "), stdout=subprocess.PIPE)
+        out, err = process.communicate()
+        return out
+
 from subprocess import call
 from yaml import load, dump
-try:
-    from yaml import CLoader as Loader, CDumper as Dumper
-except ImportError:
-    from yaml import Loader, Dumper
+#try:
+#    from yaml import CLoader as Loader, CDumper as Dumper
+#except ImportError:
+#    from yaml import Loader, Dumper
 
 WPattern = r"<(?i)(windown|wn|winn|windn)ame>"
 SPattern = r"<(?i)(sessionn|sn|sesn|sessn)ame>"
@@ -21,6 +30,14 @@ TmuxLayouts.append('main-horizontal')
 TmuxLayouts.append('main-vertical')
 FilesDirectory = os.path.expanduser('~/.config/IniTmux')
 
+connectFailed = 'failed to connect to server'
+
+#def signal_handler(signal, frame):
+#    #print("\nYou pressed Ctrl+C, exiting!\n")
+#    #call('clear')
+#    sys.exit(0)
+#
+#signal.signal(signal.SIGINT, signal_handler)
 
 # Tmux Functions {{{
 def SwapWindows(SName,WNumber1,WNumber2): #{{{
@@ -99,12 +116,15 @@ def LoadYAMLs(FilesDirectory): #{{{
     Files = system('ls '+FilesDirectory).split("\n")
     for SNumber in range(len(Files)):
         File = FilesDirectory+'/'+Files[SNumber]
-        Stream = open(File,'r')
         try:
-            YAMLs.append(load(Stream))
+            Stream = open(File,'r')
+            try:
+                YAMLs.append(load(Stream))
+            except:
+                pass
+            Stream.close()
         except:
             pass
-        Stream.close()
     return YAMLs
 #}}}
 def GetSessionNamesFromYAMLs(YAMLs): #{{{
@@ -131,10 +151,12 @@ def GetSesssionsToLoad(SNames): #{{{
     call('clear')
 
     SessionsToLoad = []
+
+
     if Input == '':
         SessionsToLoad = range(len(SNames))
     else:
-        for Choice in Input.strip().split(' '):
+        for Choice in str(Input).strip().split(' '):
             if Choice and (Choice not in SessionsToLoad) and Choice.isdigit():
                 SessionsToLoad.append(Choice)
             elif Choice in ['x','X']:
@@ -144,7 +166,7 @@ def GetSesssionsToLoad(SNames): #{{{
 #}}}
 def GetTmuxSessionNames(): #{{{
     ListSessions = system('tmux list-sessions')
-    if not ListSessions == 'failed to connect to server: Connection refused':
+    if not ListSessions.startswith(connectFailed):
         ListSessions = system("tmux list-sessions -F '#S'")
         return ListSessions.split("\n")
     else:
@@ -153,7 +175,7 @@ def GetTmuxSessionNames(): #{{{
 #}}}
 def GetTmuxWindowNames(SName): #{{{
     ListSessions = system('tmux list-sessions')
-    if not ListSessions == 'failed to connect to server: Connection refused':
+    if not ListSessions.startswith(connectFailed):
         ListWindows = system("tmux list-windows -t "+SName+" -F '#W'")
         return ListWindows.split("\n")
     else:
@@ -162,7 +184,7 @@ def GetTmuxWindowNames(SName): #{{{
 #}}}
 def GetTmuxNPanes(SName): #{{{
     ListSessions = system('tmux list-sessions')
-    if not ListSessions == 'failed to connect to server: Connection refused':
+    if not ListSessions.startswith(connectFailed):
         NPanes = system("tmux list-windows -t "+SName+" -F '#{window_panes}'")
         return NPanes.split("\n")
     else:
@@ -172,7 +194,7 @@ def GetTmuxNPanes(SName): #{{{
 def GetTmuxWorkspace(): #{{{
     # NOTE: This function will die soon!
     ListSessions = system('tmux list-sessions')
-    if not ListSessions == 'failed to connect to server: Connection refused':
+    if not ListSessions.startswith(connectFailed):
         ListSessions = ListSessions.split("\n")
 
         Sessions = []
@@ -180,7 +202,7 @@ def GetTmuxWorkspace(): #{{{
         for i in range(len(ListSessions)):
             ListSessions[i] = ListSessions[i].split("windows")[0].split(":")[0]
             Sessions.append({'name':ListSessions[i],'windows':[]})
-        
+
         for i in range(len(Sessions)):
             ListWindows = system('tmux list-windows -t '+Sessions[i]['name'])
             ListWindows = ListWindows.split("\n")
@@ -215,7 +237,7 @@ def GetTmuxWorkspace(): #{{{
         print(dump(Sessions[0]))
         stream = open("samples/Project.yml",'r')
         pprint(load(stream))
-    
+
 #SPattern = r"<(?i)(sessionn|sn|sesn|sessn)ame>"
 #}}}
 def GetWindowNames(Windows): #{{{
@@ -298,7 +320,6 @@ def CreatePanes(SName,WName,WNumber,Root,Model,SpecificDir,SpecificLayout): #{{{
         Directory = os.path.expanduser(Root)+'/'+str(Dir)
 
     print('    --> Window: '+WName)
-
     Panes  = Model.get('panes')
 
     if type(Panes) is int:
@@ -334,7 +355,7 @@ def CreateWindows(SName,Root,Models,Windows): #{{{
             WModelName = Window[1]
             if len(Window) == 3:
                 SpecificDir = Window[2]
-    
+
             Model = Models[WModelName]
         elif type(Window) == type({}):
             WName = list(Window.keys())[0]
@@ -391,12 +412,15 @@ def CreateSessions(FilesDirectory): #{{{
 #}}}
 #}}}
 
+
+
 call('clear')
 print()
 print('---------------------------------------------')
 CreateSessions(FilesDirectory)
 print()
-#print('Done. Type: "tmux attach-session" To Checkout your Sessions!')
+print('Done. Type: "tmux attach-session" To Checkout your Sessions!')
+
 
 #input('')
 #call('killall tmux',shell=True)
