@@ -4,6 +4,7 @@ import signal
 import os
 import subprocess
 import re
+import sys
 from pprint import pprint
 try:
     from subprocess import getoutput as system
@@ -32,12 +33,12 @@ FilesDirectory = os.path.expanduser('~/.config/IniTmux')
 
 connectFailed = 'failed to connect to server'
 
-#def signal_handler(signal, frame):
-#    #print("\nYou pressed Ctrl+C, exiting!\n")
-#    #call('clear')
-#    sys.exit(0)
-#
-#signal.signal(signal.SIGINT, signal_handler)
+def signal_handler(signal, frame):
+    #print("\nYou pressed Ctrl+C, exiting!\n")
+    #call('clear')
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
 
 # Tmux Functions {{{
 def SwapWindows(SName,WNumber1,WNumber2): #{{{
