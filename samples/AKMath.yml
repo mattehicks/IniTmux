@@ -1,0 +1,31 @@
+---
+name: AKMath
+root: /i/project/LibAK/feature
+windows:
+
+- Number  : M01 
+- Complex : M01 
+- Matrix  : M01 
+- Vector  : M01 
+
+- Manager: man
+
+models:
+
+    man:
+        layout: even-vertical
+        panes: 
+        - ranger
+        - ''
+
+    M01:
+        layout: 1299,127x35,0,0[127x25,0,0,1,127x9,0,26,2]
+        panes:
+        - Vim:
+            - mkdir .VWS
+            - touch .VWS/<WName> 
+            - vim -c "VWSLoadWorkSpace <WName>"
+        - MakeGit:
+            - make clean 
+            - clear 
+            - git status
