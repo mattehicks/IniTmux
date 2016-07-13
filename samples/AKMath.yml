@@ -15,8 +15,8 @@ models:
     man:
         layout: even-vertical
         panes: 
-        - ranger
         - ''
+        - ranger
 
     M01:
         layout: 1299,127x35,0,0[127x25,0,0,1,127x9,0,26,2]
