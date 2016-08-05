@@ -1,29 +1,27 @@
 ---
-name: AKMeta
-root: /i/project/LibAK/feature
+name: librain-GA
+root: /i/project/librain/code
+
 windows:
 
-- Makefile : M01
-- Scripts  : M01
-- Conf     : M01
-- feature  : M02
-- develop  : M02
-- master   : M02
-- wiki     : M02
+- GA          : M01
+- Chromosome  : M01
+- Gene        : M01
 
 - Manager: man
+
 
 models:
 
     man:
         layout: even-vertical
-        dir: ../
         panes: 
         - ''
         - ranger
+
     M01:
         layout: 1299,127x35,0,0[127x25,0,0,1,127x9,0,26,2]
-        panes: 
+        panes:
         - Vim:
             - mkdir .VWS
             - touch .VWS/<WName> 
@@ -32,10 +30,3 @@ models:
             - make clean 
             - clear 
             - git status
-
-    M02:
-        layout: 1299,127x35,0,0[127x25,0,0,1,127x9,0,26,2]
-        dir: ../<WName>
-        panes:
-        - ''
-        - ranger

@@ -1,14 +1,14 @@
 ---
-name: AK
-root: /i/project/LibAK/feature
-
+name: librain-info
+root: /i/project/librain/code
 windows:
 
-- BinGA: M01
-- BinGenome: M01
+- Interval : M01
+- String   : M01
+- UIntBin  : M01
+- Info     : M01
 
 - Manager: man
-
 
 models:
 

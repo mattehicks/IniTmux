@@ -1,12 +1,9 @@
 ---
-name: AKMath
-root: /i/project/LibAK/feature
+name: librain-meta
+root: /i/project/librain/code
 windows:
 
-- Number  : M01 
-- Complex : M01 
-- Matrix  : M01 
-- Vector  : M01 
+- MetaRealBin : M01
 
 - Manager: man
 

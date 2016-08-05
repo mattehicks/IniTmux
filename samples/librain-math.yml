@@ -1,13 +1,12 @@
 ---
-name: AKData
-root: /i/project/LibAK/feature
+name: librain-math
+root: /i/project/librain/code
 windows:
 
-- BinRealString : M01
-- String        : M01
-- Info          : M01
-- NodeList      : M01
-- List          : M01
+#- Number  : M01 
+#- Complex : M01 
+#- Matrix  : M01 
+- Vector  : M01 
 
 - Manager: man
 
